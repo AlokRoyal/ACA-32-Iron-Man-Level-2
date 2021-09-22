@@ -59,6 +59,7 @@ function draw() {
     var temp = (bricksGroup).get(i);
     if (temp.isTouching(ironMan)){
       ironMan.collide(temp);
+      temp=null;
     }
   }
 
