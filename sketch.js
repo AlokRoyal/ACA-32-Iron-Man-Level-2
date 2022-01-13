@@ -2,12 +2,17 @@
 var bg, backgroundImg;
 var ironMan, ironManImg;
 var bricksGroup, bricksImage;
+var diamondGroup, diamondImg;
+var obstaclesGroup, obstacleImg;
+var score=0;
 // var edges;
 
 function preload() {
   backgroundImg = loadImage("images/bg.jpg");
   ironManImg = loadImage("images/iron.png");
   bricksImage = loadImage("images/stone.png");
+  diamondImg = loadImage("images/diamond.png");
+  obstacleImg = loadImage("images/spikes.png");
 }
 
 function setup() {
@@ -23,6 +28,10 @@ function setup() {
   ironMan.setCollider("rectangle",100,0,200,400);
 
   bricksGroup = new Group();
+
+  diamondGroup = new Group();
+
+  obstaclesGroup = new Group();
 
   edges = createEdgeSprites();
 }
@@ -51,7 +60,27 @@ function draw() {
     ironMan.x = ironMan.x + 7;
   }
 
+  generateDiamonds();
 
+  for (let s = 0; s < (diamondGroup).length; s++) {
+    var t = (diamondGroup).get(s);
+    if (t.isTouching(ironMan)){
+      score++;
+      t.destroy();
+      t = null;
+    }
+  }
+
+  generateObstacles();
+
+  for(var a =0; a<(obstaclesGroup).length; a++) {
+    var tem = (obstaclesGroup).get(a);
+    if (tem.isTouching(ironMan)){
+      score--;
+      tem.destroy();
+      tem = null;
+    }
+  }
 
   generateBricks();
 
@@ -59,6 +88,7 @@ function draw() {
     var temp = (bricksGroup).get(i);
     if (temp.isTouching(ironMan)){
       ironMan.collide(temp);
+      // setInterval(destroyBricks = ()=>{brick.destroy();},500);
       temp=null;
     }
   }
@@ -73,10 +103,13 @@ function draw() {
 
 
   drawSprites(); 
+  textSize(20);
+  fill("White");
+  text("Coins Collected: "+ score, 450,50);
 }
 
 function generateBricks() {
-  if (frameCount % 20 === 0) {
+  if (frameCount % 30 === 0) {
     var brick = createSprite(40,10);
     brick.x = random(100,850);
     brick.addImage(bricksImage);
@@ -85,5 +118,27 @@ function generateBricks() {
     brick.lifetime = 56;
     bricksGroup.add(brick);
     console.log(frameCount);
+  }
+}
+
+function generateDiamonds() {
+  if (frameCount % 40 === 0){
+    var diamond = createSprite(10,10);
+    diamond.x = random(100,850);
+    diamond.addImage(diamondImg);
+    diamond.scale = 0.3;
+    diamond.velocityY = 8;
+    diamondGroup.add(diamond);
+  }
+}
+
+function generateObstacles(){
+  if(frameCount % 30 === 0){
+    var obstacle = createSprite(10,10);
+    obstacle.x = random(100,850);
+    obstacle.addImage(obstacleImg);
+    obstacle.scale = 0.3;
+    obstacle.velocityY = 8;
+    obstaclesGroup.add(obstacle);
   }
 }
