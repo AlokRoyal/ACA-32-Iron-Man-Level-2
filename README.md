@@ -1,25 +1,40 @@
 # Iron Man — Level 2
 
-A p5.js platform-style game prototype. Guide Iron Man through a scrolling scene, collect diamonds to increase the score, avoid spikes that reduce it, and use falling bricks as platforms.
+![JavaScript](https://img.shields.io/badge/JavaScript-p5.js-FB7D24?logo=p5dotjs&logoColor=white)
+![Game](https://img.shields.io/badge/type-browser%20prototype-4C8EDA)
+
+A p5.js platform-style prototype. Guide Iron Man through a scrolling scene, collect diamonds for points, avoid spikes that reduce the score, and interact with falling bricks as platforms.
 
 ## Controls and scoring
 
-- Left and right arrows: move horizontally
-- Up arrow: jump
+- Left and right arrows move horizontally.
+- Up arrow applies jump velocity.
 - Collecting a diamond adds one point.
-- Touching a spike removes one point.
-- Bricks act as platforms as the character falls.
+- Contact with a spike removes one point.
+- Bricks are generated as falling platforms.
 
-The sketch displays the score on the canvas. This is a prototype with no separate game-over screen or persistent high score.
+The current sketch draws the score on the canvas. It does not store a high score between sessions.
 
-## Implementation
+## How it works
 
-sketch.js loads local images and creates sprite groups for bricks, diamonds, and obstacles. The frame loop handles keyboard movement, gravity, spawning, collision response, and score rendering. Spawn intervals and horizontal positions are defined in generator functions.
+The sketch loads local images and creates sprite groups for bricks, diamonds, and obstacles. The draw loop handles input, gravity, spawning, collisions, and score rendering. Separate generator functions control when items appear and where they enter the scene.
 
-## Run
+## Architecture
 
-Open index.html in a browser. Keep images/, lib/, and CSS/ at their existing paths. No package installation or build command is included.
+Keyboard input → Iron Man movement/gravity → obstacle and collectible groups → collision/score updates → canvas
 
-## Stack
+## Start locally
 
-HTML, CSS, JavaScript, p5.js, and p5.play.
+Open index.html in a browser. Keep images/, CSS/, and lib/ in place. No build or package installation is configured; use a local static server if file URL restrictions prevent asset loading.
+
+## Project layout
+
+- index.html — browser entry point
+- sketch.js — gameplay, score, spawning, and collision logic
+- images/ — character, background, bricks, diamonds, and spikes
+- lib/ — p5.js/p5.play libraries
+- CSS/ — page styling
+
+## Limitations
+
+This is a prototype and has no persistent progress, game-over screen, or automated test suite.
